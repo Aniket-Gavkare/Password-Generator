@@ -7,13 +7,13 @@ let inputSlider = document.querySelector("input[type=range]");
 function handleSlider() {
   inputSlider.value = passwordLength;
   lengthDisplay.innerText = passwordLength;
-    // handle slider color
+  // handle slider color
 
-    const min = inputSlider.min;
-    const max = inputSlider.max;
-  
-    inputSlider.style.backgroundSize =
-      ((passwordLength - min) * 100) / (max - min) +"% 100%";
+  const min = inputSlider.min;
+  const max = inputSlider.max;
+
+  inputSlider.style.backgroundSize =
+    ((passwordLength - min) * 100) / (max - min) + "% 100%";
 }
 
 let passwordLength = 10;
@@ -142,7 +142,6 @@ let checkCount = 1;
 
 let checkBoxes = document.querySelectorAll("input[type=checkbox]");
 
-
 // CheckBox - Handle
 function handleCheckBoxChange() {
   checkCount = 0;
@@ -164,63 +163,76 @@ checkBoxes.forEach((checkbox) => {
 let password = "";
 let generateBtn = document.querySelector("#generateBtn");
 
-let errorMsg = document.querySelector("[errorMsg]")
+let errorMsg = document.querySelector("[errorMsg]");
 
 let timeoutId;
 
 generateBtn.addEventListener("click", () => {
-  
+  // Remove the active class
+  errorMsg.classList.remove("active");
+
+  // Clear any existing timeout
+  if (timeoutId) {
+    clearTimeout(timeoutId);
+  }
+
+  // Wait for a short delay before showing the new message
+  setTimeout(() => {
     try {
-        if (checkCount > 0)
-        {
-
-            if (passwordLength < checkCount) {
-                passwordLength = checkCount;
-                handleSlider();
-              }
-            
-              // Remove Previous Password
-              password = "";
-            
-              let arrayOfCheckedFunction = [];
-            
-              if (uppercase.checked) arrayOfCheckedFunction.push(generateRandomUppercase);
-              if (lowercase.checked) arrayOfCheckedFunction.push(generateRandomLowercase);
-              if (numbers.checked) arrayOfCheckedFunction.push(generateRandomNumber);
-              if (symbols.checked) arrayOfCheckedFunction.push(generateRandomSymbol);
-            
-              // Compulsory Addition
-              for (let i = 0; i < arrayOfCheckedFunction.length; i++) {
-                password += arrayOfCheckedFunction[i]();
-              }
-              // Additional addition
-              for (let i = 0; i < passwordLength - arrayOfCheckedFunction.length; i++) {
-                let randIndex = generateRandom(0, arrayOfCheckedFunction.length);
-                password += arrayOfCheckedFunction[randIndex]();
-              }
-            
-              // Shuffle Password
-              password = shuffle(Array.from(password));
-              passwordDisplay.value = password;
-              calcStrength();
-
-              errorMsg.innerText = "PassWord Created";
-              errorMsg.style.cssText = "background-color:var(--lt-violet2); color:var(--vb-yellow);";
-
-        } 
-        else{
-            throw new Error("No checkbox selected");
+      if (checkCount > 0) {
+        if (passwordLength < checkCount) {
+          passwordLength = checkCount;
+          handleSlider();
         }
+
+        // Remove Previous Password
+        password = "";
+
+        let arrayOfCheckedFunction = [];
+
+        if (uppercase.checked)
+          arrayOfCheckedFunction.push(generateRandomUppercase);
+        if (lowercase.checked)
+          arrayOfCheckedFunction.push(generateRandomLowercase);
+        if (numbers.checked) arrayOfCheckedFunction.push(generateRandomNumber);
+        if (symbols.checked) arrayOfCheckedFunction.push(generateRandomSymbol);
+
+        // Compulsory Addition
+        for (let i = 0; i < arrayOfCheckedFunction.length; i++) {
+          password += arrayOfCheckedFunction[i]();
+        }
+        // Additional addition
+        for (
+          let i = 0;
+          i < passwordLength - arrayOfCheckedFunction.length;
+          i++
+        ) {
+          let randIndex = generateRandom(0, arrayOfCheckedFunction.length);
+          password += arrayOfCheckedFunction[randIndex]();
+        }
+
+        // Shuffle Password
+        password = shuffle(Array.from(password));
+        passwordDisplay.value = password;
+        calcStrength();
+
+        errorMsg.innerText = "PassWord Created";
+        errorMsg.style.cssText =
+          "background-color:var(--lt-violet2); color:var(--vb-yellow);";
+      } else {
+        throw new Error("No checkbox selected");
+      }
     } catch (e) {
-        errorMsg.innerText = "No checkbox selected";
-        errorMsg.style.cssText = "background-color:red; color:white;";
+      errorMsg.innerText = "No checkbox selected";
+      errorMsg.style.cssText = "background-color:red; color:white;";
     }
 
+    // Add the active class to show the new message
     errorMsg.classList.add("active");
 
-    clearTimeout(timeoutId);
-    
+    // Set a timeout to hide the message after 2500ms
     timeoutId = setTimeout(() => {
       errorMsg.classList.remove("active");
     }, 2500);
+  }, 300); // Delay of 300ms before showing the new message
 });
