@@ -5,10 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Password Generator</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="img/password.png" type="image/x-icon">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;200;300;400;600&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="wrapper">
       <!-- Container -->
+      <span class="errorMsg" errorMsg></span>
+
       <div class="container">
         <!-- Heading  -->
         <div>
@@ -19,7 +32,7 @@
         <div class="displayContainer">
           <input type="text" placeholder="Password" readonly passwordDisplay />
           <button class="copyBtn">
-            <span copyMessage></span>
+            <span class="tooltip" copyMessage></span>
             <img src="./img/copy.svg" alt="copy" width="24" height="24" />
           </button>
         </div>
@@ -36,7 +49,7 @@
           </div>
 
           <!-- Checkboxes  -->
-          <div class="allCheck">
+          <div class="allCheckboxes">
             <div class="check">
               <input type="checkbox" name="" id="uppercase" />
               <label for="uppercase">include uppercase letters</label>
