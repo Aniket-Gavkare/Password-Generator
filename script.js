@@ -166,6 +166,8 @@ let generateBtn = document.querySelector("#generateBtn");
 
 let errorMsg = document.querySelector("[errorMsg]")
 
+let timeoutId;
+
 generateBtn.addEventListener("click", () => {
   
     try {
@@ -216,7 +218,9 @@ generateBtn.addEventListener("click", () => {
 
     errorMsg.classList.add("active");
 
-    setTimeout(() => {
+    clearTimeout(timeoutId);
+    
+    timeoutId = setTimeout(() => {
       errorMsg.classList.remove("active");
     }, 2500);
 });
